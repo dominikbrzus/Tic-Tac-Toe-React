@@ -2,7 +2,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { GrGamepad } from "react-icons/gr";
 import { AiFillRobot } from "react-icons/ai";
 
-const Results: React.FC<any> = ({ matchResults, endGame, nextRound }) => {
+const Results: React.FC<any> = ({ matchResults, endGame, nextRound}) => {
   return (
     <>
       <div className="results">

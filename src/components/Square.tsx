@@ -1,15 +1,15 @@
 import { VscChromeClose } from "react-icons/vsc";
 import { BsCircle } from "react-icons/bs";
 
-const Square: React.FC<any> = ({ allSquares, endGame, handleChoiceSquare }) => {
+const Square: React.FC<any> = ({ allSquares, endGame, handleChoiceSquare, refAllSquares}) => {
   return (
     <div className={endGame ? "area blocked" : "area"}>
-      {allSquares.map((square: any) => {
+      {refAllSquares.current.map((square: any) => {
         const { id, clicked, player } = square;
         return (
           <div
             className={clicked ? "square blocked" : "square"}
-            data-id={id}
+            data-id={clicked ? `${id}-clicked` : id}
             key={id}
             onClick={handleChoiceSquare}
           >
