@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Tic Tac Toe - Simple React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with React and TypeScript. Tic Tac Toe allows you to play with computer (Artificial Intelligence). 
+The App contains the playing field and results. 
 
 ## Available Scripts
 
