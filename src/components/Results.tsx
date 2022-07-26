@@ -21,7 +21,7 @@ const Results: React.FC<any> = ({ matchResults, endGame, nextRound}) => {
           <p className="results__text">Wins: {matchResults.computerScore}</p>
         </div>
       </div>
-      {endGame ? <button onClick={nextRound}>Klik</button> : null}
+      {endGame ? <button className="btn"onClick={nextRound}>Next Round</button> : null}
     </>
   );
 };

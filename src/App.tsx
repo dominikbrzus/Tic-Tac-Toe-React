@@ -4,6 +4,7 @@ import { squares } from "./data/Data";
 import Square from "./components/Square";
 import Results from "./components/Results";
 import { TypingSquares, ResultMatch } from "./data/Interfaces";
+import { winner } from "./data/Data";
 
 const resultsGame = {
   humanScore: 0,
@@ -12,25 +13,16 @@ const resultsGame = {
 };
 
 function App() {
-  const [allSquares, setAllsquares] =
-    useState<TypingSquares["squares"]>(squares);
-
   const [myTurn, setMyTurn] = useState<boolean>(true);
-
-  const [computerChoices, setComputerChoices] =
-    useState<TypingSquares["squares"]>(squares);
-
   const [matchResults, setMatchResults] = useState<ResultMatch>(resultsGame);
-
   const [endGame, setEndGame] = useState<boolean>(false);
-
-  const refAllSquares = useRef<any>(squares);
-  const refComputerChoices = useRef<any>(squares);
+  const refAllSquares = useRef<TypingSquares["squares"]>(squares);
+  const refComputerChoices = useRef<TypingSquares["squares"]>(squares);
 
   useEffect(() => {
     if (!myTurn && !endGame) {
       computerMovement();
-      setMyTurn(true);
+      setMyTurn(!myTurn);
     }
   }, [myTurn]);
 
@@ -44,14 +36,13 @@ function App() {
       }
       return square;
     });
-    setAllsquares(changeClickedElement);
     refAllSquares.current = changeClickedElement;
     const checkNumberInSquare = refAllSquares.current.filter(
       (el: any) => el.clicked === false
-      );
-      refComputerChoices.current = checkNumberInSquare;
-      setMyTurn(false);
-      checkResult();
+    );
+    refComputerChoices.current = checkNumberInSquare;
+    setMyTurn(!myTurn);
+    checkResult();
   };
 
   // Function responsible for choosing a square by a computer.
@@ -70,26 +61,16 @@ function App() {
           return square;
         }
       );
-      setAllsquares(changeClickedElementComp);
       refAllSquares.current = changeClickedElementComp;
     }
     checkResult();
   };
 
+  // Calculate and set the winner.
   const checkResult = () => {
-    const winner = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    for (let i = 0; i < winner.length; i++) {
-      const [a, b, c] = winner[i];
+    const winningResults = winner;
+    for (let i = 0; i < winningResults.length; i++) {
+      const [a, b, c] = winningResults[i];
       if (
         refAllSquares.current[a].player === "human" &&
         refAllSquares.current[b].player === "human" &&
@@ -117,18 +98,18 @@ function App() {
     }
   };
 
+  // The function enables skip to the next round.
   const nextRound = () => {
-    refAllSquares.current = squares
-    refComputerChoices.current = squares
+    refAllSquares.current = squares;
+    refComputerChoices.current = squares;
     setMatchResults({ ...matchResults, round: matchResults.round + 1 });
     setEndGame(false);
-    setMyTurn(true)
+    setMyTurn(true);
   };
 
   return (
     <div className="container">
       <Square
-        allSquares={allSquares}
         endGame={endGame}
         nextRound={nextRound}
         handleChoiceSquare={handleChoiceSquare}
